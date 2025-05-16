@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MIE DINGDONG</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background: #d93483;
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .logo {
+      display: block;
+      margin: auto;
+      max-width: 200px;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      display: none;
+      animation: fade 0.3s;
+    }
+
+    .tab.active {
+      display: block;
+    }
+
+    @keyframes fade {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    .menu-btn {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      background: #2e3e8b;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .variant {
+      margin: 10px 0 20px;
+      padding-left: 10px;
+      display: none;
+    }
+
+    .variant.show {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .harga {
+      color: green;
+      font-size: 0.9em;
+      margin: 2px 0 6px 0;
+    }
+
+    .item {
+      background: #fff;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+    }
+
+    .label {
+      font-weight: bold;
+    }
+
+    .qty {
+      display: flex;
+      align-items: center;
+      margin-top: 5px;
+    }
+
+    .qty button {
+      background: #d93483;
+      color: white;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    .qty span {
+      width: 30px;
+      text-align: center;
+      display: inline-block;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .nav-btn {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background: #2e3e8b;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .submit-btn {
+      background: #2a9d8f;
+    }
+
+    .total {
+      text-align: right;
+      margin-top: 20px;
+      font-weight: bold;
+      color: #ffffff;
+    }
+
+    .note {
+      margin-top: 20px;
+      font-style: italic;
+      font-size: 0.9em;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+<img src="Logodingdong.png" alt="MIE DINGDONG" class="logo" />
+
+<!-- Tab 1 -->
+<div class="tab active" id="tab1">
+  <button class="menu-btn" onclick="toggleVariant('ding')">Mie Ding (Gurih)</button>
+  <div class="variant" id="ding">
+    <div class="item"><div class="label">Level 0</div><div class="harga">Rp 10.000</div><div class="qty"><button onclick="updateQty('ding0', -1)">-</button><span id="ding0">0</span><button onclick="updateQty('ding0', 1)">+</button></div></div>
+    <div class="item"><div class="label">Level 1</div><div class="harga">Rp 10.000</div><div class="qty"><button onclick="updateQty('ding1', -1)">-</button><span id="ding1">0</span><button onclick="updateQty('ding1', 1)">+</button></div></div>
+    <div class="item"><div class="label">Level 2</div><div class="harga">Rp 11.000</div><div class="qty"><button onclick="updateQty('ding2', -1)">-</button><span id="ding2">0</span><button onclick="updateQty('ding2', 1)">+</button></div></div>
+    <div class="item"><div class="label">Level 3</div><div class="harga">Rp 11.000</div><div class="qty"><button onclick="updateQty('ding3', -1)">-</button><span id="ding3">0</span><button onclick="updateQty('ding3', 1)">+</button></div></div>
+    <div class="item"><div class="label">Level 4</div><div class="harga">Rp 12.000</div><div class="qty"><button onclick="updateQty('ding4', -1)">-</button><span id="ding4">0</span><button onclick="updateQty('ding4', 1)">+</button></div></div>
+    <div class="item"><div class="label">Level 5</div><div class="harga">Rp 12.000</div><div class="qty"><button onclick="updateQty('ding5', -1)">-</button><span id="ding5">0</span><button onclick="updateQty('ding5', 1)">+</button></div></div>
+  </div>
+
+  <button class="menu-btn" onclick="toggleVariant('dong')">Mie Dong (Manis)</button>
+  <div class="variant" id="dong">
+    <div class="item"><div class="label">Level 0</div><div class="harga">Rp 10.000</div><div class="qty"><button onclick="updateQty('dong0', -1)">-</button><span id="dong0">0</span><button onclick="updateQty('dong0', 1)">+</button></div></div>
+    <div class="item"><div class="label">Level 1</div><div class="harga">Rp 10.000</div><div class="qty"><button onclick="updateQty('dong1', -1)">-</button><span id="dong1">0</span><button onclick="updateQty('dong1', 1)">+</button></div></div>
+    <div class="item"><div class="label">Level 2</div><div class="harga">Rp 11.000</div><div class="qty"><button onclick="updateQty('dong2', -1)">-</button><span id="dong2">0</span><button onclick="updateQty('dong2', 1)">+</button></div></div>
+    <div class="item"><div class="label">Level 3</div><div class="harga">Rp 11.000</div><div class="qty"><button onclick="updateQty('dong3', -1)">-</button><span id="dong3">0</span><button onclick="updateQty('dong3', 1)">+</button></div></div>
+    <div class="item"><div class="label">Level 4</div><div class="harga">Rp 12.000</div><div class="qty"><button onclick="updateQty('dong4', -1)">-</button><span id="dong4">0</span><button onclick="updateQty('dong4', 1)">+</button></div></div>
+    <div class="item"><div class="label">Level 5</div><div class="harga">Rp 12.000</div><div class="qty"><button onclick="updateQty('dong5', -1)">-</button><span id="dong5">0</span><button onclick="updateQty('dong5', 1)">+</button></div></div>
+  </div>
+
+  <div class="total" id="totalHarga1">Total: Rp0</div>
+  <div class="note">Silahkan pilih menu di atas!</div>
+  <button class="nav-btn" onclick="nextTab()">Lanjut</button>
+</div>
+
+<!-- Tab 2 -->
+<div class="tab" id="tab2">
+  <div class="variant show">
+    <div class="item"><div class="label">Es Teh</div><div class="harga">Rp 5.000</div><div class="qty"><button onclick="updateQty('esteh', -1)">-</button><span id="esteh">0</span><button onclick="updateQty('esteh', 1)">+</button></div></div>
+    <div class="item"><div class="label">Es Teh Tarik</div><div class="harga">Rp 6.000</div><div class="qty"><button onclick="updateQty('tarik', -1)">-</button><span id="tarik">0</span><button onclick="updateQty('tarik', 1)">+</button></div></div>
+  </div>
+
+  <div class="total" id="totalHarga2">Total: Rp0</div>
+  <button class="nav-btn" onclick="prevTab()">Kembali</button>
+  <button class="nav-btn" onclick="nextTab()">Lanjut</button>
+</div>
+
+<!-- Tab 3 -->
+<div class="tab" id="tab3">
+  <div style="color: white; margin-bottom: 10px;">Silahkan cek pesanan di bawah ini:</div>
+  <div id="review" style="color: white;"></div>
+  <div class="total" id="totalReview">Total: Rp0</div>  
+  <button class="nav-btn" onclick="prevTab()">Kembali</button>
+  <button class="nav-btn" onclick="nextTab()">Lanjut</button>
+</div>
+
+<!-- Tab 4 -->
+<div class="tab" id="tab4">
+  <label style="color: white;">Nama:</label>
+  <input type="text" id="nama">
+  <div class="total" id="totalHarga">Total: Rp0</div>
+  <button class="nav-btn" onclick="prevTab()">Kembali</button>
+  <button class="nav-btn submit-btn" onclick="kirim()">PESAN SEKARANG</button>
+</div>
+
+<script>
+  const qty = {};
+  const harga = (id) => {
+    let level = parseInt(id.slice(-1));
+    if (id.includes('ding') || id.includes('dong')) {
+      if (level === 0 || level === 1) return 10000;
+      if (level === 2 || level === 3) return 11000;
+      return 12000;
+    }
+    if (id === 'esteh') return 5000;
+    if (id === 'tarik') return 6000;
+    return 0;
+  };
+
+  function updateQty(id, delta) {
+    qty[id] = (qty[id] || 0) + delta;
+    if (qty[id] < 0) qty[id] = 0;
+    document.getElementById(id).innerText = qty[id];
+    hitungTotal();
+  }
+
+  function toggleVariant(id) {
+    document.getElementById(id).classList.toggle('show');
+  }
+
+  function hitungTotal() {
+    let total = 0;
+    for (let key in qty) {
+      total += qty[key] * harga(key);
+    }
+    document.getElementById('totalHarga').innerText = 'Total: Rp' + total.toLocaleString();
+    document.getElementById('totalHarga1').innerText = 'Total: Rp' + total.toLocaleString();
+    document.getElementById('totalHarga2').innerText = 'Total: Rp' + total.toLocaleString();
+    document.getElementById('totalReview').innerText = 'Total: Rp' + total.toLocaleString();
+  }
+
+  let currentTab = 1;
+  function nextTab() {
+    if (currentTab < 4) {
+      document.getElementById('tab' + currentTab).classList.remove('active');
+      currentTab++;
+      document.getElementById('tab' + currentTab).classList.add('active');
+
+      if (currentTab === 3) tampilReview();
+    }
+  }
+
+  function prevTab() {
+    if (currentTab > 1) {
+      document.getElementById('tab' + currentTab).classList.remove('active');
+      currentTab--;
+      document.getElementById('tab' + currentTab).classList.add('active');
+    }
+  }
+
+  function tampilReview() {
+  let reviewHTML = '';
+  let total = 0;
+
+  for (let key in qty) {
+    if (qty[key] > 0) {
+      let label = '';
+      let level = key.replace(/\D/g, '');
+      if (key.includes('ding')) {
+        label = `Mie Ding Level ${level}`;
+      } else if (key.includes('dong')) {
+        label = `Mie Dong Level ${level}`;
+      } else if (key === 'esteh') {
+        label = 'Es Teh';
+      } else if (key === 'tarik') {
+        label = 'Es Teh Tarik';
+      }
+
+      const subtotal = qty[key] * harga(key);
+      total += subtotal;
+
+      reviewHTML += `
+        <div class="mb-2">
+          ${label} x ${qty[key]} = <span class="text-green-600">Rp${subtotal.toLocaleString()}</span>
+        </div>
+      `;
+    }
+  }
+
+  if (total === 0) {
+    reviewHTML = `<div class="text-red-500">Belum ada pesanan. Silakan pilih minimal 1 item.</div>`;
+  } else 
+  document.getElementById('review').innerHTML = reviewHTML;
+}
+
+  function kirim() {
+  const nama = document.getElementById('nama').value.trim();
+  if (!nama) {
+    alert('Harap isi nama terlebih dahulu!');
+    return;
+  }
+
+  let total = 0;
+  let msg = '*Pemesanan MIE DINGDONG*\n\n';
+  msg += `*Nama:* ${nama}\n\n`;
+  msg += '*Detail Pesanan:*\n';
+
+  for (let key in qty) {
+    if (qty[key] > 0) {
+      let label = '';
+      let level = key.replace(/\D/g, '');
+      if (key.includes('ding')) {
+        label = `Mie Ding Level ${level}`;
+      } else if (key.includes('dong')) {
+        label = `Mie Dong Level ${level}`;
+      } else if (key === 'esteh') {
+        label = 'Es Teh';
+      } else if (key === 'tarik') {
+        label = 'Es Teh Tarik';
+      }
+
+      const subtotal = qty[key] * harga(key);
+      total += subtotal;
+      msg += `- ${label} x ${qty[key]} = Rp${subtotal.toLocaleString()}\n`;
+    }
+  }
+
+  if (total === 0) {
+    alert('Pesanan tidak boleh kosong. Silakan pilih minimal 1 item.');
+    return;
+  }
+
+  msg += `\n*Total: Rp${total.toLocaleString()}*\n\nTerima kasih!`;
+
+  const url = `https://wa.me/6282338328883?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+}
+</script>
+
+</body>
+</html>
