@@ -252,9 +252,10 @@
     }
   }
 
-  function tampilReview() {
+ function tampilReview() {
   let reviewHTML = '';
   let total = 0;
+  let no = 1;
 
   for (let key in qty) {
     if (qty[key] > 0) {
@@ -270,12 +271,15 @@
         label = 'Es Teh Tarik';
       }
 
+      const jumlah = `${qty[key]} pcs`;
       const subtotal = qty[key] * harga(key);
       total += subtotal;
 
       reviewHTML += `
-        <div class="mb-2">
-          ${label} x ${qty[key]} = <span class="text-green-600">Rp${subtotal.toLocaleString()}</span>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+          <div style="flex: 1; text-align: left;">${no++}. ${label}</div>
+          <div style="width: 70px; text-align: center;">${jumlah}</div>
+          <div style="width: 90px; text-align: right;">Rp${subtotal.toLocaleString()}</div>
         </div>
       `;
     }
@@ -283,7 +287,8 @@
 
   if (total === 0) {
     reviewHTML = `<div class="text-red-500">Belum ada pesanan. Silakan pilih minimal 1 item.</div>`;
-  } else 
+  }
+
   document.getElementById('review').innerHTML = reviewHTML;
 }
 
@@ -297,16 +302,17 @@
   let total = 0;
   let msg = '*Pemesanan MIE DINGDONG*\n\n';
   msg += `*Nama:* ${nama}\n\n`;
-  msg += '*Detail Pesanan:*\n';
+  msg += '*Detail Pesanan:*\n\n';
 
+  let no = 1;
   for (let key in qty) {
     if (qty[key] > 0) {
       let label = '';
       let level = key.replace(/\D/g, '');
       if (key.includes('ding')) {
-        label = `Mie Ding Level ${level}`;
+        label = `Mie Ding Lv. ${level}`;
       } else if (key.includes('dong')) {
-        label = `Mie Dong Level ${level}`;
+        label = `Mie Dong Lv. ${level}`;
       } else if (key === 'esteh') {
         label = 'Es Teh';
       } else if (key === 'tarik') {
@@ -315,18 +321,17 @@
 
       const subtotal = qty[key] * harga(key);
       total += subtotal;
-      msg += `- ${label} x ${qty[key]} = Rp${subtotal.toLocaleString()}\n`;
+
+      msg += `${no}. ${label} - ${qty[key]} pcs\n    Rp${subtotal.toLocaleString()}\n\n`;
+      no++;
     }
   }
 
-  if (total === 0) {
-    alert('Pesanan tidak boleh kosong. Silakan pilih minimal 1 item.');
-    return;
-  }
+  msg += `*Total:* Rp${total.toLocaleString()}\n`;
+  msg += `\nSilakan tunggu konfirmasi dari admin.`;
 
-  msg += `\n*Total: Rp${total.toLocaleString()}*\n\nTerima kasih!`;
-
-  const url = `https://wa.me/6282338328883?text=${encodeURIComponent(msg)}`;
+  const nomorAdmin = '6282338328883';
+  const url = `https://wa.me/${nomorAdmin}?text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank');
 }
 </script>
