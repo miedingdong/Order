@@ -197,11 +197,18 @@
 
 <!-- Tab 4 -->
 <div class="tab" id="tab4">
-  <label style="color: white;">Nama:</label>
-  <input type="text" id="nama">
-  <label style="color: white;">Alamat:</label>
-  <input type="text" id="alamat">
+  <div style="margin-bottom: 15px;">
+    <label for="nama" style="color: white; font-weight: bold;">Nama:</label>
+    <input type="text" id="nama" placeholder="Contoh: Rina Aulia">
+  </div>
+
+  <div style="margin-bottom: 15px;">
+    <label for="alamat" style="color: white; font-weight: bold;">Alamat:</label>
+    <textarea id="alamat" rows="3" placeholder="Contoh: Tas 5, Blok K, K11" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc;"></textarea>
+  </div>
+
   <div class="total" id="totalHarga">Total: Rp0</div>
+
   <button class="nav-btn" onclick="prevTab()">Kembali</button>
   <button class="nav-btn submit-btn" onclick="kirim()">PESAN SEKARANG</button>
 </div>
@@ -323,48 +330,51 @@
   }
 
   function kirim() {
-    const nama = document.getElementById('nama').value.trim();
-    if (!nama) {
-      alert('Harap isi nama terlebih dahulu!');
-      return;
-    }
+  const nama = document.getElementById('nama').value.trim();
+  const alamat = document.getElementById('alamat').value.trim();
 
-    let total = 0;
-    let msg = '*Pemesanan MIE DINGDONG*\n\n';
-    msg += `*Nama:* ${nama}\n\n`;
-    msg += '*Detail Pesanan:*\n\n';
-
-    let no = 1;
-    for (let key in qty) {
-      if (qty[key] > 0) {
-        let label = '';
-        let level = key.replace(/\D/g, '');
-        if (key.includes('ding')) {
-          label = `Mie Ding Lv. ${level}`;
-        } else if (key.includes('dong')) {
-          label = `Mie Dong Lv. ${level}`;
-        } else if (key === 'esteh') {
-          label = 'Es Teh';
-        } else if (key === 'tarik') {
-          label = 'Es Teh Tarik';
-        }
-
-        const subtotal = qty[key] * harga(key);
-        total += subtotal;
-
-        msg += `${no}. ${label} - ${qty[key]} pcs\n    Rp${subtotal.toLocaleString()}\n\n`;
-        no++;
-      }
-    }
-
-    msg += `*Total:* Rp${total.toLocaleString()}\n`;
-    msg += `\nSilakan tunggu konfirmasi dari admin.`;
-
-    const nomorAdmin = '6282338328883';
-    const url = `https://wa.me/${nomorAdmin}?text=${encodeURIComponent(msg)}`;
-    window.open(url, '_blank');
+  if (!nama || !alamat) {
+    alert('Harap isi nama dan alamat terlebih dahulu!');
+    return;
   }
+
+  let total = 0;
+  let msg = '*Pemesanan MIE DINGDONG*\n\n';
+  msg += `*Nama:* ${nama}\n`;
+  msg += `*Alamat:* ${alamat}\n\n`;
+  msg += '*Detail Pesanan:*\n\n';
+
+  let no = 1;
+  for (let key in qty) {
+    if (qty[key] > 0) {
+      let label = '';
+      let level = key.replace(/\D/g, '');
+      if (key.includes('ding')) {
+        label = `Mie Ding Lv. ${level}`;
+      } else if (key.includes('dong')) {
+        label = `Mie Dong Lv. ${level}`;
+      } else if (key === 'esteh') {
+        label = 'Es Teh';
+      } else if (key === 'tarik') {
+        label = 'Es Teh Tarik';
+      }
+
+      const subtotal = qty[key] * harga(key);
+      total += subtotal;
+
+      msg += `${no}. ${label} - ${qty[key]} pcs\n    Rp${subtotal.toLocaleString()}\n\n`;
+      no++;
+    }
+  }
+
+  msg += `*Total:* Rp${total.toLocaleString()}\n`;
+  msg += `\nSilakan tunggu konfirmasi dari admin.`;
+
+  const nomorAdmin = '6282338328883';
+  const url = `https://wa.me/${nomorAdmin}?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+}
 </script>
 
 </body>
-</html>                                                                                               </html>
+</html>
