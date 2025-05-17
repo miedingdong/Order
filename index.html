@@ -371,7 +371,7 @@
   msg += `\nSilakan tunggu konfirmasi dari admin.`;
 
   const nomorAdmin = '6282338328883';
-  const url = `https://wa.me/${nomorAdmin}?text=${encodeURIComponent(msg)}`;
+  const url = 'https://wa.me/' + nomorAdmin + '?text=' + encodeURIComponent(msg);
   window.open(url, '_blank');
 }
 </script>
