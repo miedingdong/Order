@@ -3,15 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>MIE DINGDONG</title>
+  <title>MIE DINGDONG</title>
 
-<!-- Tambahkan ini -->
-<meta name="description" content="Form Pemesanan Online Mie DingDong">
-<meta property="og:title" content="Mie DingDong">
-<meta property="og:description" content="Form Pemesanan Online Mie DingDong">
-<meta property="og:url" content="https://miedingdong.github.io/Order/">
-<meta property="og:type" content="website">
- 
+  <meta name="description" content="Form Pemesanan Online Mie DingDong">
+  <meta property="og:title" content="Mie DingDong">
+  <meta property="og:description" content="Form Pemesanan Online Mie DingDong">
+  <meta property="og:url" content="https://miedingdong.github.io/Order/">
+  <meta property="og:type" content="website">
+
   <style>
     body {
       font-family: sans-serif;
@@ -200,6 +199,8 @@
 <div class="tab" id="tab4">
   <label style="color: white;">Nama:</label>
   <input type="text" id="nama">
+  <label style="color: white;">Alamat:</label>
+  <input type="text" id="alamat">
   <div class="total" id="totalHarga">Total: Rp0</div>
   <button class="nav-btn" onclick="prevTab()">Kembali</button>
   <button class="nav-btn submit-btn" onclick="kirim()">PESAN SEKARANG</button>
@@ -207,6 +208,23 @@
 
 <script>
   const qty = {};
+  const stok = {
+    ding0: 3,
+    ding1: 3,
+    ding2: 2,
+    ding3: 2,
+    ding4: 1,
+    ding5: 1,
+    dong0: 3,
+    dong1: 3,
+    dong2: 2,
+    dong3: 2,
+    dong4: 1,
+    dong5: 1,
+    esteh: 5,
+    tarik: 0
+  };
+
   const harga = (id) => {
     let level = parseInt(id.slice(-1));
     if (id.includes('ding') || id.includes('dong')) {
@@ -222,6 +240,10 @@
   function updateQty(id, delta) {
     qty[id] = (qty[id] || 0) + delta;
     if (qty[id] < 0) qty[id] = 0;
+    if (qty[id] > stok[id]) {
+      qty[id] = stok[id];
+      alert("Maaf, stok menu ini habis. ^^");
+    }
     document.getElementById(id).innerText = qty[id];
     hitungTotal();
   }
@@ -260,89 +282,89 @@
     }
   }
 
- function tampilReview() {
-  let reviewHTML = '';
-  let total = 0;
-  let no = 1;
+  function tampilReview() {
+    let reviewHTML = '';
+    let total = 0;
+    let no = 1;
 
-  for (let key in qty) {
-    if (qty[key] > 0) {
-      let label = '';
-      let level = key.replace(/\D/g, '');
-      if (key.includes('ding')) {
-        label = `Mie Ding Level ${level}`;
-      } else if (key.includes('dong')) {
-        label = `Mie Dong Level ${level}`;
-      } else if (key === 'esteh') {
-        label = 'Es Teh';
-      } else if (key === 'tarik') {
-        label = 'Es Teh Tarik';
+    for (let key in qty) {
+      if (qty[key] > 0) {
+        let label = '';
+        let level = key.replace(/\D/g, '');
+        if (key.includes('ding')) {
+          label = `Mie Ding Level ${level}`;
+        } else if (key.includes('dong')) {
+          label = `Mie Dong Level ${level}`;
+        } else if (key === 'esteh') {
+          label = 'Es Teh';
+        } else if (key === 'tarik') {
+          label = 'Es Teh Tarik';
+        }
+
+        const jumlah = `${qty[key]} pcs`;
+        const subtotal = qty[key] * harga(key);
+        total += subtotal;
+
+        reviewHTML += `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+            <div style="flex: 1; text-align: left;">${no++}. ${label}</div>
+            <div style="width: 70px; text-align: center;">${jumlah}</div>
+            <div style="width: 90px; text-align: right;">Rp${subtotal.toLocaleString()}</div>
+          </div>
+        `;
       }
-
-      const jumlah = `${qty[key]} pcs`;
-      const subtotal = qty[key] * harga(key);
-      total += subtotal;
-
-      reviewHTML += `
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
-          <div style="flex: 1; text-align: left;">${no++}. ${label}</div>
-          <div style="width: 70px; text-align: center;">${jumlah}</div>
-          <div style="width: 90px; text-align: right;">Rp${subtotal.toLocaleString()}</div>
-        </div>
-      `;
     }
-  }
 
-  if (total === 0) {
-    reviewHTML = `<div class="text-red-500">Belum ada pesanan. Silakan pilih minimal 1 item.</div>`;
-  }
+    if (total === 0) {
+      reviewHTML = `<div class="text-red-500">Belum ada pesanan. Silakan pilih minimal 1 item.</div>`;
+    }
 
-  document.getElementById('review').innerHTML = reviewHTML;
-}
+    document.getElementById('review').innerHTML = reviewHTML;
+  }
 
   function kirim() {
-  const nama = document.getElementById('nama').value.trim();
-  if (!nama) {
-    alert('Harap isi nama terlebih dahulu!');
-    return;
-  }
-
-  let total = 0;
-  let msg = '*Pemesanan MIE DINGDONG*\n\n';
-  msg += `*Nama:* ${nama}\n\n`;
-  msg += '*Detail Pesanan:*\n\n';
-
-  let no = 1;
-  for (let key in qty) {
-    if (qty[key] > 0) {
-      let label = '';
-      let level = key.replace(/\D/g, '');
-      if (key.includes('ding')) {
-        label = `Mie Ding Lv. ${level}`;
-      } else if (key.includes('dong')) {
-        label = `Mie Dong Lv. ${level}`;
-      } else if (key === 'esteh') {
-        label = 'Es Teh';
-      } else if (key === 'tarik') {
-        label = 'Es Teh Tarik';
-      }
-
-      const subtotal = qty[key] * harga(key);
-      total += subtotal;
-
-      msg += `${no}. ${label} - ${qty[key]} pcs\n    Rp${subtotal.toLocaleString()}\n\n`;
-      no++;
+    const nama = document.getElementById('nama').value.trim();
+    if (!nama) {
+      alert('Harap isi nama terlebih dahulu!');
+      return;
     }
+
+    let total = 0;
+    let msg = '*Pemesanan MIE DINGDONG*\n\n';
+    msg += `*Nama:* ${nama}\n\n`;
+    msg += '*Detail Pesanan:*\n\n';
+
+    let no = 1;
+    for (let key in qty) {
+      if (qty[key] > 0) {
+        let label = '';
+        let level = key.replace(/\D/g, '');
+        if (key.includes('ding')) {
+          label = `Mie Ding Lv. ${level}`;
+        } else if (key.includes('dong')) {
+          label = `Mie Dong Lv. ${level}`;
+        } else if (key === 'esteh') {
+          label = 'Es Teh';
+        } else if (key === 'tarik') {
+          label = 'Es Teh Tarik';
+        }
+
+        const subtotal = qty[key] * harga(key);
+        total += subtotal;
+
+        msg += `${no}. ${label} - ${qty[key]} pcs\n    Rp${subtotal.toLocaleString()}\n\n`;
+        no++;
+      }
+    }
+
+    msg += `*Total:* Rp${total.toLocaleString()}\n`;
+    msg += `\nSilakan tunggu konfirmasi dari admin.`;
+
+    const nomorAdmin = '6282338328883';
+    const url = `https://wa.me/${nomorAdmin}?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
   }
-
-  msg += `*Total:* Rp${total.toLocaleString()}\n`;
-  msg += `\nSilakan tunggu konfirmasi dari admin.`;
-
-  const nomorAdmin = '6282338328883';
-  const url = `https://wa.me/${nomorAdmin}?text=${encodeURIComponent(msg)}`;
-  window.open(url, '_blank');
-}
 </script>
 
 </body>
-</html>
+</html>                                                                                               </html>
