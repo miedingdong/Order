@@ -172,8 +172,6 @@
   <div class="total" id="totalHarga1">Total: Rp0</div>
   <div class="note">Silahkan pilih menu di atas!</div>
   <button class="nav-btn" onclick="nextTab()">Lanjut</button>
-  <button class="nav-btn" style="background:#e76f51;" onclick="ambilPromo()">Ambil Promo Rp5.000</button>
-<div class="note" id="promoNote" style="display:none;">Promo berhasil diaktifkan!</div>
 </div>
 
 <!-- Tab 2 -->
@@ -218,19 +216,19 @@
 <script>
   const qty = {};
   const stok = {
-    ding0: 50,
-    ding1: 50,
-    ding2: 50,
-    ding3: 50,
-    ding4: 50,
-    ding5: 50,
-    dong0: 50,
-    dong1: 50,
-    dong2: 50,
-    dong3: 50,
-    dong4: 50,
-    dong5: 50,
-    esteh: 50,
+    ding0: 3,
+    ding1: 3,
+    ding2: 2,
+    ding3: 2,
+    ding4: 1,
+    ding5: 1,
+    dong0: 3,
+    dong1: 3,
+    dong2: 2,
+    dong3: 2,
+    dong4: 1,
+    dong5: 1,
+    esteh: 5,
     tarik: 0
   };
 
@@ -261,36 +259,16 @@
     document.getElementById(id).classList.toggle('show');
   }
 
-let pakaiPromo = false;
-function ambilPromo() {
-  let totalSementara = 0;
-  for (let key in qty) {
-    totalSementara += qty[key] * harga(key);
-  }
-
-  if (totalSementara >= 20000) {
-    pakaiPromo = true;
-    document.getElementById('promoNote').style.display = 'block';
-    hitungTotal();
-  } else {
-    alert('Total belanja belum mencapai Rp 20.000.');
-  }
-}
-
   function hitungTotal() {
-  let total = 0;
-  for (let key in qty) {
-    total += qty[key] * harga(key);
+    let total = 0;
+    for (let key in qty) {
+      total += qty[key] * harga(key);
+    }
+    document.getElementById('totalHarga').innerText = 'Total: Rp' + total.toLocaleString();
+    document.getElementById('totalHarga1').innerText = 'Total: Rp' + total.toLocaleString();
+    document.getElementById('totalHarga2').innerText = 'Total: Rp' + total.toLocaleString();
+    document.getElementById('totalReview').innerText = 'Total: Rp' + total.toLocaleString();
   }
-
-  let diskon = (pakaiPromo && total >= 20000) ? 5000 : 0;
-  let totalSetelahDiskon = total - diskon;
-
-  document.getElementById('totalHarga').innerText = 'Total: Rp' + totalSetelahDiskon.toLocaleString();
-  document.getElementById('totalHarga1').innerText = 'Total: Rp' + totalSetelahDiskon.toLocaleString();
-  document.getElementById('totalHarga2').innerText = 'Total: Rp' + totalSetelahDiskon.toLocaleString();
-  document.getElementById('totalReview').innerText = 'Total: Rp' + totalSetelahDiskon.toLocaleString();
-}
 
   let currentTab = 1;
   function nextTab() {
@@ -343,16 +321,7 @@ function ambilPromo() {
         `;
       }
     }
-if (pakaiPromo && total >= 20000) {
-  reviewHTML += `
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-weight: bold;">
-      <div style="flex: 1; text-align: left; color: #ffeb3b;">Promo Diskon</div>
-      <div style="width: 70px;"></div>
-      <div style="width: 90px; text-align: right; color: #ffeb3b;">-Rp5.000</div>
-    </div>
-  `;
-  total -= 5000;
-}
+
     if (total === 0) {
       reviewHTML = `<div class="text-red-500">Belum ada pesanan. Silakan pilih minimal 1 item.</div>`;
     }
@@ -398,15 +367,7 @@ if (pakaiPromo && total >= 20000) {
     }
   }
 
-  let potongan = 0;
-  if (total >= 20000) {
-    potongan = 5000;
-    msg += `*Potongan Promo:* -Rp${potongan.toLocaleString()}\n`;
-  }
-
-  const totalAkhir = total - potongan;
-
-  msg += `*Total:* Rp${totalAkhir.toLocaleString()}\n`;
+  msg += `*Total:* Rp${total.toLocaleString()}\n`;
   msg += `\nSilakan tunggu konfirmasi dari admin.`;
 
   const nomorAdmin = '6282338328883';
